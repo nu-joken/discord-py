@@ -2,7 +2,6 @@ import os
 import discord
 from discord.ext import commands
 import dotenv
-from sqlalchemy import true
 
 intents = discord.Intents.default()
 bot = commands.Bot(intents=intents)
@@ -32,6 +31,4 @@ async def ping(ctx: discord.ApplicationContext):
 async def hello(ctx: discord.ApplicationContext):
     await ctx.respond("Choo choo! 🚅")
 
-
 bot.run(TOKEN)
-
