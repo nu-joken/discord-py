@@ -1,26 +1,37 @@
-# This example requires the 'message_content' privileged intents
-
 import os
 import discord
 from discord.ext import commands
-
+import dotenv
+from sqlalchemy import true
 
 intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(intents=intents)
 
+
+TOKEN = ''
+
+if __name__ == "__main__": 
+    TOKEN = os.environ["DISCORD_TOKEN"]
+else:
+    dotenv.load_dotenv(override=True)
+    TOKEN = os.getenv("DISCORD_TOKEN")
+
+# hooks
 
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
+# slash command
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send("Choo choo! 🚅")
+@bot.slash_command()
+async def ping(ctx: discord.ApplicationContext):
+    await ctx.respond('pong')
+
+@bot.slash_command()
+async def hello(ctx: discord.ApplicationContext):
+    await ctx.respond("Choo choo! 🚅")
 
 
-bot.run(os.environ["DISCORD_TOKEN"])
+bot.run(TOKEN)
+
